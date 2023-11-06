@@ -8,6 +8,7 @@
 
 <body>
     <?php require("includes/menu.php"); ?>
+
     <div class="content">
         <button id="myBtn">+</button>
 
@@ -15,7 +16,7 @@
 
             <!-- Modal content -->
             <div class="modal-content">
-                <form method="post" action="mediaInsert.php" enctype="multipart/form-data">
+                <form method="post" id="modalform" action="mediaInsert.php" enctype="multipart/form-data">
                     <div class="modalbox">
                         <div class="modalLeft">
                             <input class="uploadBtn" type="file" name="picture">
@@ -30,6 +31,8 @@
                     </div>
 
 
+
+                    
                     <?php
                     /*
                     $query = "SELECT * FROM `Likess`";
@@ -52,6 +55,28 @@
         </div>
     </div>
 
+            <div class="displayposts">
+
+                <?php
+                $display = "SELECT * FROM `Media`";
+                $result = mysqli_query($conn, $display);
+                while ($row = mysqli_fetch_array($result)) {
+                    ?>
+                        <img src="<?php echo $row['URL']; ?>" id="displayimg" alt="image" style="width: 324px; height: 576px; ">
+                    <?php
+                }
+                mysqli_close($conn);
+                ?>
+
+                    <div class="modalImg" id="displayModal">
+
+                    </div>
+
+
+
+            </div>      
+            
+
 
 <?php require("includes/footer.php"); ?>
 
@@ -60,3 +85,5 @@
 
 
 </html>
+
+
