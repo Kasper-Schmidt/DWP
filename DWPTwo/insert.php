@@ -8,12 +8,13 @@ echo $_FILES['picture']['name'];
 
 require ("connection.php");
 // prepare and bind
-$stmt = $conn->prepare("INSERT INTO Profile (Username, Fname, Lname, Email, Pass, Avatar, Birthdate) VALUES (?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("sssssss", $Username, $Fname, $Lname, $Email, $Pass, $Avatar, $Birthdate);
+$stmt = $conn->prepare("INSERT INTO Profile (ProfileID, Username, Fname, Lname, Email, Pass, Avatar, Birthdate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("isssssss", $ProfileID, $Username, $Fname, $Lname, $Email, $Pass, $Avatar, $Birthdate);
 
 
 // set parameters and execute
-    $Username = htmlspecialchars(trim($_POST['user'])); //XSS, SQL injections
+    $ProfileID = htmlspecialchars(trim($_POST['ProfileID'])); //XSS, SQL injections
+    $Username = htmlspecialchars(trim($_POST['Username'])); 
     $Fname = htmlspecialchars(trim($_POST['Fname']));
     $Lname = htmlspecialchars(trim($_POST['Lname']));
     $Email = htmlspecialchars(trim($_POST['Email']));
@@ -40,8 +41,8 @@ $stmt2->bind_param("si", $CommentID, $CommentText, $LikeCount);
     $LikeCount = htmlspecialchars(trim($_POST['CommentLike']));
     $stmt2->execute();
 
-$stmt = $conn->prepare("INSERT INTO Likes (LikeAmount) VALUES (?)");
-$stmt->bind_param("i", $LikeAmount);
+$stmt3 = $conn->prepare("INSERT INTO Likes (LikeAmount) VALUES (?)");
+$stmt3->bind_param("i", $LikeAmount);
 
     $LikeAmount = htmlspecialchars(trim($_POST['Likes']));
     $stmt->execute();
@@ -52,16 +53,16 @@ $conn->close();
 
 
 
-
+/*
 $profile = "INSERT INTO `Profile` (`ProfileID`, `Username`, `Fname`, `Lname`, `Email`, `Pass`, `Avatar`, `Birthdate`) VALUES ('$ProfileID', '$Username', '$Fname', '$Lname', '$Email', '$Pass', '$Avatar, '$Birthdate');";
 $media = "INSERT INTO `Media` (`URL`, `mediaTitle`, `mediaDesc`, `mediaComment`, `mediaLike`) VALUES ('$URL', '$mediaTitle', '$mediaDesc', '$mediaComment', '$mediaLike');";
 $comment = "INSERT INTO `Comment` (`CommentID`, `CommentText`, `LikeCount`) VALUES ('$CommentID', '$CommentText', '$LikeCount');";
 $likes = "INSERT INTO `Likess` (`LikeID`, `LikeAmount`) VALUES ('$LikeID', '$LikeAmount');";
+*/
 
 
-
-if(!mysqli_query($connection, $profile, $post, $media, $comment, $likes)) {
-    die("Could not add: ".mysqli_error($connection));
+if(!mysqli_query($conn, $profile, $post, $media, $comment, $likes)) {
+    die("Could not add: ".mysqli_error($conn));
 } else {
     header("Location: index.php");
 } 

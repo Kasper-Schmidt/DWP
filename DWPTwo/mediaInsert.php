@@ -14,7 +14,7 @@ $stmt1->bind_param("sssi", $URL, $mediaTitle, $mediaDesc, $mediaProfileFK);
     $URL = htmlspecialchars(trim($URL));
     $mediaTitle = htmlspecialchars(trim($_POST['mediaTitle']));
     $mediaDesc = htmlspecialchars(trim($_POST['mediaDesc']));
-    $mediaProfileFK = 2;
+    $mediaProfileFK = 1;
 
     $stmt1->execute();
 

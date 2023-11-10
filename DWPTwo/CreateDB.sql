@@ -19,7 +19,7 @@ URL varchar(1000),
 mediaTitle text,
 mediaDesc text,
 mediaComment text, 
-mediaLike int,
+mediaLike int DEFAULT 0,
 MediaProfileFK int NOT NULL,
 FOREIGN KEY (MediaProfileFK) REFERENCES Profile (ProfileID)
 );

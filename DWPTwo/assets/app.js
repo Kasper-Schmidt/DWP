@@ -1,3 +1,4 @@
+
  // Get the modal
  var modal = document.getElementById("myModal");
 
@@ -25,8 +26,30 @@
  }
 
 
-/*
 
+
+
+
+ document.addEventListener("click",function (e){
+   if(e.target.classList.contains("gallery-item")){
+   	  const src = e.target.getAttribute("src");
+   	  document.querySelector(".modal-img").src = src;
+   	  const myModal = new bootstrap.Modal(document.getElementById('gallery-modal'));
+   	  myModal.show();
+   }
+ })
+
+
+
+
+
+
+
+
+
+
+
+/*
   // Get the modal
   var modaldisplay = document.getElementById("displayModal");
 
@@ -52,6 +75,37 @@
           modal.style.display = "none";
       }
   }
+
+
+
+
+
+      // Open the modal
+      function openModal(url) {
+        var modal = document.getElementById('customModal');
+        var modalImg = document.getElementById("modalImage");
+        var closeModalButton = document.getElementsByClassName("close")[0];
+        modal.style.display = "block";
+        modalImg.src = url;
+
+        // Close the modal when the close button is clicked
+        closeModalButton.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Close the modal when clicking outside the modal content
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    }
+
+
+
+
  */
+
+  
 
  
