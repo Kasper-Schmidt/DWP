@@ -86,7 +86,7 @@ body {
     margin: 10px;
     border-radius: 20px;
     color: fff;
-    z-index: 1;
+    z-index: 10;
 }
 
 
@@ -108,7 +108,7 @@ input[type=file]::file-selector-button {
     position: fixed;
     top: 80%;
     left: 47.9%;
-    z-index: 1;
+    z-index: 10;
 }
 
 #myBtn:hover {
@@ -342,6 +342,8 @@ input[type=file]::file-selector-button {
     background-color: white;
     padding-left: 2.5%;
     border-radius: 0 20px 20px 0;
+    overflow-y: auto;
+    max-height: 100%; 
 }
 
 .imgProfileDisplay {
@@ -359,11 +361,24 @@ input[type=file]::file-selector-button {
     font-size: 16px;
 }
 
+.rules a{
+    text-decoration: none;
+    color: white;
+}
+
+.media {
+    width: 30%;
+    margin: 10px auto;
+    border: 1px solid #cbcbcb;
+    padding: 5px 10px 0px 10px;
+}
 
 
 
 
-
-
-
-
+/*        FOOTER       */
+.footer {
+    width: 100vw;
+    height: 200px;
+    background-color: #DDB3B3;
+}

@@ -1,111 +1,41 @@
+// Hent modal-elementet
+var modal = document.getElementById("myModal");
 
- // Get the modal
- var modal = document.getElementById("myModal");
+// Hent knappen, der åbner modalen
+var btn = document.getElementById("myBtn");
 
- // Get the button that opens the modal
- var btn = document.getElementById("myBtn");
+// Hent <span>-elementet, der lukker modalen
+var span = document.getElementsByClassName("close")[0];
 
- // Get the <span> element that closes the modal
- var span = document.getElementsByClassName("close")[0];
+// Når brugeren klikker på knappen, åbnes modalen
+btn.onclick = function() {
+    modal.style.display = "block";
+}
 
- // When the user clicks on the button, open the modal
- btn.onclick = function() {
-     modal.style.display = "block";
- }
+// Når brugeren klikker på <span> (x), lukkes modalen
+span.onclick = function() {
+    modal.style.display = "none";
+}
 
- // When the user clicks on <span> (x), close the modal
- span.onclick = function() {
-     modal.style.display = "none";
- }
-
- // When the user clicks anywhere outside of the modal, close it
- window.onclick = function(event) {
-     if (event.target == modal) {
-         modal.style.display = "none";
-     }
- }
-
-
-
-
-
-
- document.addEventListener("click",function (e){
-   if(e.target.classList.contains("gallery-item")){
-   	  const src = e.target.getAttribute("src");
-   	  document.querySelector(".modal-img").src = src;
-   	  const myModal = new bootstrap.Modal(document.getElementById('gallery-modal'));
-   	  myModal.show();
-   }
- })
-
-
-
-
-
-
-
-
-
-
-
-/*
-  // Get the modal
-  var modaldisplay = document.getElementById("displayModal");
-
-  // Get the button that opens the modal
-  var btndisplay = document.getElementById("displayimg");
- 
-  // Get the <span> element that closes the modal
-  var spandisplay = document.getElementsByClassName("close")[0];
- 
-  // When the user clicks on the button, open the modal
-  btndisplay.onclick = function() {
-      modal.style.display = "modalImg";
-  }
- 
-  // When the user clicks on <span> (x), close the modal
-  spandisplay.onclick = function() {
-      modal.style.display = "none";
-  }
- 
-  // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function(event) {
-      if (event.target == modal) {
-          modal.style.display = "none";
-      }
-  }
-
-
-
-
-
-      // Open the modal
-      function openModal(url) {
-        var modal = document.getElementById('customModal');
-        var modalImg = document.getElementById("modalImage");
-        var closeModalButton = document.getElementsByClassName("close")[0];
-        modal.style.display = "block";
-        modalImg.src = url;
-
-        // Close the modal when the close button is clicked
-        closeModalButton.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        // Close the modal when clicking outside the modal content
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
+// Når brugeren klikker hvor som helst uden for modalen, lukkes den
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
     }
+}
 
+// Lyt efter klik-hændelser på dokumentet
+document.addEventListener("click", function (e) {
+    // Hvis det klikkede element har klassen "gallery-item"
+    if (e.target.classList.contains("gallery-item")) {
+        // Hent kildeattributten (src) for det klikkede element
+        const src = e.target.getAttribute("src");
 
+        // Opdater kilden for billedet i modalen med den nye kilde
+        document.querySelector(".modal-img").src = src;
 
-
- */
-
-  
-
- 
+        // Opret en ny bootstrap-modal og vis den
+        const myModal = new bootstrap.Modal(document.getElementById('gallery-modal'));
+        myModal.show();
+    }
+});

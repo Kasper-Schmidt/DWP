@@ -1,0 +1,57 @@
+//skal under profile.php
+            <?php
+ require_once("uploadAvatar.php"); 
+$profileData = $conn->prepare("SELECT * FROM `Profile` WHERE ProfileID = ?");
+$profileData->bind_param('i', $_SESSION['userid']);
+$profileData->execute();
+$result = $profileData->get_result()->fetch_assoc();
+$profileData->close();
+
+$avatarURL = $result['Avatar'] ?? ''; // Hent stien til avatarbilledet, sørg for at håndtere tilfælde, hvor feltet er tomt
+
+echo "<form method='post' action='uploadAvatar.php' enctype='multipart/form-data'>";
+echo "Avatar <input type='file' name='Avatar'>";
+echo "<input type='submit' name='submit'>";
+echo "</form>";
+
+if (!empty($avatarURL)) {
+    echo "<img src='" . $avatarURL . "' alt='Avatar' style='width: 100px; height: 100px;'>";
+}
+?>
+
+___________ behold i uploadAvatar.php
+<?php
+require_once("connection.php");
+require_once("classes/DbCon.php"); 
+
+if(isset($_FILES['Avatar'])){
+    $file_tmp = $_FILES['Avatar']['tmp_name'];
+    $file_type = $_FILES['Avatar']['type'];
+  
+    $allowedTypes = array('image/jpeg', 'image/jpg', 'image/png'); // Tilladte filtyper
+    
+    if(!in_array($file_type, $allowedTypes)){
+       echo "Denne filtype er ikke tilladt. Vælg venligst en JPEG eller PNG fil.";
+    } else {
+        $imageContent = addslashes(file_get_contents($file_tmp)); // Læs filindholdet og konverter det til en BLOB
+        
+        // Forbered en SQL-forespørgsel til at opdatere billedet i din profil tabel
+        $db = new DbCon();
+        $stmt = $conn->prepare("UPDATE `Profile` SET Avatar = ? WHERE ProfileID = ?");
+        if (!$stmt) {
+            echo "Fejl i SQL-forespørgsel: " . $conn->error;
+        } else {
+            $stmt->bind_param("si", $imageContent, $_SESSION['userid']); // Antager, at ProfileID er en integer
+            $stmt->execute();
+            if ($stmt->affected_rows > 0) {
+                echo "Succes";
+            } else {
+                echo "Ingen rækker blev påvirket. Kontroller dine ProfileID og feltets navne.";
+            }
+            $stmt->close();
+        }
+    }
+}
+?>
+
+

@@ -1,34 +1,46 @@
 <?php
-
 require_once("upload.php");
 
-echo "Hello World";
-echo $_FILES['picture']['name'];
+// Tjek om URL er sat og dens længde er større end 0
+if (isset($URL) && strlen($URL) > 0) {
 
-
-require ("connection.php");
-
-$stmt1 = $conn->prepare("INSERT INTO Media (URL, mediaTitle, mediaDesc, mediaProfileFK) VALUES (?, ?, ?, ?)");
-$stmt1->bind_param("sssi", $URL, $mediaTitle, $mediaDesc, $mediaProfileFK);
-
-    $URL = htmlspecialchars(trim($URL));
+    // Etabler databaseforbindelse
+    require("connection.php");
+    
+    // Sanitiser og trim brugerinput for mediatitel og beskrivelse
     $mediaTitle = htmlspecialchars(trim($_POST['mediaTitle']));
     $mediaDesc = htmlspecialchars(trim($_POST['mediaDesc']));
-    $mediaProfileFK = 1;
 
-    $stmt1->execute();
+    // Udfør denne kodeblok kun hvis en mediatitel og beskrivelse er angivet
+    if (strlen($mediaTitle) > 0 && strlen($mediaDesc) > 0) {
 
-$stmt1->close();
-$conn->close();
+        // Forbered SQL-forespørgsel til at indsætte data i 'Media'-tabellen
+        $stmt1 = $conn->prepare("INSERT INTO Media (URL, mediaTitle, mediaDesc, mediaProfileFK) VALUES (?, ?, ?, ?)");
+        
+        // Bind parametre til den forberedte erklæring
+        $stmt1->bind_param("sssi", $URL, $mediaTitle, $mediaDesc, $mediaProfileFK);
 
+        // Sanitiser og trim URL
+        $URL = htmlspecialchars(trim($URL));
+        
+        // Sæt en standardværdi for mediaProfileFK (antager 1 i dette tilfælde)
+        $mediaProfileFK = 1;
 
+        // Udfør den forberedte erklæring
+        $stmt1->execute();
 
-//$media = "INSERT INTO `Media` (`URL`, `mediaTitle`, `mediaDesc`) VALUES ('$URL', '$mediaTitle', '$mediaDesc');";
+        // Luk den forberedte erklæring
+        $stmt1->close();
 
-/*
-if(!mysqli_query($conn, $media,)) {
-    die("Kunne ikke tilføje: ".mysqli_error($conn));
+        // Luk databaseforbindelsen
+        $conn->close();
+    } else {
+        // Vis en fejlmeddelelse, hvis titel og beskrivelse ikke er angivet
+        echo "Fejl: Titel og beskrivelse skal angives.";
+    }
+
 } else {
-    header("Location: index.php");
-} 
-*/
+    // Vis en fejlmeddelelse, hvis URL (billede) ikke er angivet
+    echo "Fejl: URL (billede) skal angives.";
+}
+?>
